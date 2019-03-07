@@ -1,0 +1,8 @@
+jeśli mam zmienną klasy auto to jest zmienna prywatna wątku.
+w każdym wątku w ktorym uruchomie funkcje f bede mial inna zmienna i.
+
+~~~~ STATIC ~~~~
+jesli mam zmienna i klasy static to ona jest zalokowana w segmencie danych. jej cykl zycia jest taki, ze jest tworzona w momencie uruchomienia procesu i likwidowana w momencie jego zakonczenia. nie ma czegos takiego ze za kazdym razem tworze ja od nowa. przy zmiennych statycznych cykl zycia obejmuje cykl zycia procesu.
+
+konstruktory obiektow statycznych sa uruchamiane przy pierwszorazowym aktywowaniem bloku kodu.
+
