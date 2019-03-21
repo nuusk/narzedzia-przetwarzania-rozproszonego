@@ -4,14 +4,14 @@
 #include <unistd.h>
 #include "zhelpers.h"
 
-#define PORT 6005
+#define PORT 6001
 #define MAX 100
 
 int main(void)
 {
   void *context = zmq_ctx_new();
   void *subscriber = zmq_socket(context, ZMQ_PULL);
-  zmq_connect(subscriber, "tcp://unixlab:6005");
+  zmq_connect(subscriber, "tcp://unixlab:6001");
 
   while (1)
   {
