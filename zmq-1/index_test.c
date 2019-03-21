@@ -1,4 +1,5 @@
-//  Hello World client
+// Simple program to send my index to unixlab and get a prize
+
 #include <zmq.h>
 #include <string.h>
 #include <stdio.h>
