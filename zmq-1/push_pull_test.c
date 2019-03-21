@@ -10,9 +10,8 @@
 int main(void)
 {
   void *context = zmq_ctx_new();
-  void *subscriber = zmq_socket(context, ZMQ_SUB);
+  void *subscriber = zmq_socket(context, ZMQ_PULL);
   zmq_connect(subscriber, "tcp://unixlab:6005");
-  zmq_setsockopt(subscriber, ZMQ_SUBSCRIBE, "W", 1);
 
   while (1)
   {
