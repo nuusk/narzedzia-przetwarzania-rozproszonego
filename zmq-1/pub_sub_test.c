@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
+#include "zhelpers.h"
 
 #define PORT 6005
 #define MAX 100
