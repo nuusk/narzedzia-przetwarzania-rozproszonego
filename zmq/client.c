@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <unistd.h>
 
+#define MAX 100
+
 int main(void)
 {
   printf("Connecting to hello world server...\n");
@@ -12,10 +14,10 @@ int main(void)
   zmq_connect(requester, "tcp://150.254.30.38:5555");
 
   int indeks = 127347;
-  char buffer[10];
+  char buffer[MAX];
   printf("Sending indeks...\n");
   zmq_send(requester, &indeks, sizeof(int), 0);
-  zmq_recv(requester, buffer, 10, 0);
+  zmq_recv(requester, buffer, MAX, 0);
   printf("End... %s\n", buffer);
   zmq_close(requester);
   zmq_ctx_destroy(context);
