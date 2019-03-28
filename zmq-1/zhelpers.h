@@ -45,13 +45,10 @@
 //  Receive 0MQ string from socket and convert into C string
 //  Caller must free returned string. Returns NULL if the context
 //  is being terminated.
-static char *
-s_recv(void *socket)
-{
+static char *s_recv(void *socket) {
   char buffer[256];
   int size = zmq_recv(socket, buffer, 255, 0);
-  if (size == -1)
-    return NULL;
+  if (size == -1) return NULL;
   buffer[size] = '\0';
 
 #if (defined(WIN32))
@@ -60,31 +57,26 @@ s_recv(void *socket)
   return strndup(buffer, sizeof(buffer) - 1);
 #endif
 
-  // remember that the strdup family of functions use malloc/alloc for space for the new string.  It must be manually
-  // freed when you are done with it.  Failure to do so will allow a heap attack.
+  // remember that the strdup family of functions use malloc/alloc for space for
+  // the new string.  It must be manually freed when you are done with it.
+  // Failure to do so will allow a heap attack.
 }
 
 //  Convert C string to 0MQ string and send to socket
-static int
-s_send(void *socket, char *string)
-{
+static int s_send(void *socket, char *string) {
   int size = zmq_send(socket, string, strlen(string), 0);
   return size;
 }
 
 //  Sends string as 0MQ string, as multipart non-terminal
-static int
-s_sendmore(void *socket, char *string)
-{
+static int s_sendmore(void *socket, char *string) {
   int size = zmq_send(socket, string, strlen(string), ZMQ_SNDMORE);
   return size;
 }
 
 //  Receives all message parts from socket, prints neatly
 //
-static void
-s_dump(void *socket)
-{
+static void s_dump(void *socket) {
   int rc;
 
   zmq_msg_t message;
@@ -93,8 +85,7 @@ s_dump(void *socket)
 
   puts("----------------------------------------");
   //  Process all parts of the message
-  do
-  {
+  do {
     int size = zmq_msg_recv(&message, socket, 0);
     assert(size >= 0);
 
@@ -103,23 +94,18 @@ s_dump(void *socket)
     assert(data != 0);
     int is_text = 1;
     int char_nbr;
-    for (char_nbr = 0; char_nbr < size; char_nbr++)
-    {
-      if ((unsigned char)data[char_nbr] < 32 || (unsigned char)data[char_nbr] > 126)
-      {
+    for (char_nbr = 0; char_nbr < size; char_nbr++) {
+      if ((unsigned char)data[char_nbr] < 32 ||
+          (unsigned char)data[char_nbr] > 126) {
         is_text = 0;
       }
     }
 
     printf("[%03d] ", size);
-    for (char_nbr = 0; char_nbr < size; char_nbr++)
-    {
-      if (is_text)
-      {
+    for (char_nbr = 0; char_nbr < size; char_nbr++) {
+      if (is_text) {
         printf("%c", data[char_nbr]);
-      }
-      else
-      {
+      } else {
         printf("%02X", (unsigned char)data[char_nbr]);
       }
     }
@@ -136,18 +122,14 @@ s_dump(void *socket)
 //    DO NOT call this version of s_set_id from multiple threads on MS Windows
 //    since s_set_id will call rand() on MS Windows. rand(), however, is not
 //    reentrant or thread-safe. See issue #521.
-static void
-s_set_id(void *socket)
-{
+static void s_set_id(void *socket) {
   char identity[10];
   sprintf(identity, "%04X-%04X", randof(0x10000), randof(0x10000));
   zmq_setsockopt(socket, ZMQ_IDENTITY, identity, strlen(identity));
 }
 #else
 //  Fix #521 for MS Windows.
-static void
-s_set_id(void *socket, intptr_t id)
-{
+static void s_set_id(void *socket, intptr_t id) {
   char identity[10];
   sprintf(identity, "%04X", (int)id);
   zmq_setsockopt(socket, ZMQ_IDENTITY, identity, strlen(identity));
@@ -155,9 +137,7 @@ s_set_id(void *socket, intptr_t id)
 #endif
 
 //  Sleep for a number of milliseconds
-static void
-s_sleep(int msecs)
-{
+static void s_sleep(int msecs) {
 #if (defined(WIN32))
   Sleep(msecs);
 #else
@@ -169,9 +149,7 @@ s_sleep(int msecs)
 }
 
 //  Return current system clock as milliseconds
-static int64_t
-s_clock(void)
-{
+static int64_t s_clock(void) {
 #if (defined(WIN32))
   SYSTEMTIME st;
   GetSystemTime(&st);
@@ -186,9 +164,7 @@ s_clock(void)
 //  Print formatted string to stdout, prefixed by date/time and
 //  terminated with a newline.
 
-static void
-s_console(const char *format, ...)
-{
+static void s_console(const char *format, ...) {
   time_t curtime = time(NULL);
   struct tm *loctime = localtime(&curtime);
   char *formatted = (char *)malloc(20);
@@ -203,4 +179,4 @@ s_console(const char *format, ...)
   printf("\n");
 }
 
-#endif //  __ZHELPERS_H_INCLUDED__
+#endif  //  __ZHELPERS_H_INCLUDED__

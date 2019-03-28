@@ -1,15 +1,16 @@
 // Simple program to send my index to unixlab and get a prize
 
-#include <zmq.h>
-#include <string.h>
 #include <stdio.h>
+#include <string.h>
 #include <unistd.h>
+#include <zmq.h>
 
 #define MAX 100
 
-int main(void)
-{
-  printf("This client is about to send my index to unixlab server (~ D. Wawrzyniak)...\n");
+int main(void) {
+  printf(
+      "This client is about to send my index to unixlab server (~ D. "
+      "Wawrzyniak)...\n");
   void *context = zmq_ctx_new();
   void *requester = zmq_socket(context, ZMQ_REQ);
   zmq_connect(requester, "tcp://150.254.30.38:5555");

@@ -1,12 +1,11 @@
-#include <zmq.h>
-#include <string.h>
 #include <stdio.h>
+#include <string.h>
 #include <unistd.h>
+#include <zmq.h>
 
 #define MAX 100
 
-int main(void)
-{
+int main(void) {
   printf("Client...\n");
   void *context = zmq_ctx_new();
   void *requester = zmq_socket(context, ZMQ_REQ);
