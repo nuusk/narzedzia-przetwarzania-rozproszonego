@@ -38,11 +38,11 @@ Msg *getmsg_1_svc(int *argp, struct svc_req *rqstp) {
 
   //  * insert server code here
 
-  *result = 1;
+  // *result = 1;
   // strcat(result, " 44444 ");
   // itoa(counter, buf);
   // strcat(message, buf);
-  // *result++;
+  *result++;
 
   return &result;
 }
